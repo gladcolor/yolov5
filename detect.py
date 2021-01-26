@@ -39,7 +39,8 @@ def detect(save_img=False):
     # Second-stage classifier
     classify = False
     if classify:
-        modelc = load_classifier(name='resnet101', n=2)  # initialize
+        modelc = load_classifier(name='resnet101', n=2)  # initia
+        # lize
         modelc.load_state_dict(torch.load('weights/resnet101.pt', map_location=device)['model'])  # load weights
         modelc.to(device).eval()
 
@@ -109,7 +110,7 @@ def detect(save_img=False):
 
                     if save_img or view_img:  # Add bbox to image
                         label = '%s %.2f' % (names[int(cls)], conf)
-                        plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
+                        plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=1)
 
             # Print time (inference + NMS)
             print('%sDone. (%.3fs)' % (s, t2 - t1))
@@ -145,19 +146,37 @@ def detect(save_img=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default='yolov5s.pt', help='model.pt path(s)')
-    parser.add_argument('--source', type=str, default='inference/images', help='source')  # file/folder, 0 for webcam
-    parser.add_argument('--output', type=str, default='inference/output', help='output folder')  # output folder
-    parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
+
+    # Default
+    # parser.add_argument('--weights', nargs='+', type=str, default='yolov5s.pt', help='model.pt path(s)')
+    # parser.add_argument('--source', type=str, default='inference/images', help='source')  # file/folder, 0 for webcam
+    # parser.add_argument('--output', type=str, default='inference/output', help='output folder')  # output folder
+    # parser.add_argument('--img-size', type=int, default=768, help='inference size (pixels)')
+    # parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
+    # parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
+    # parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    # parser.add_argument('--view-img', action='store_true', help='display results')
+    # parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
+    # parser.add_argument('--classes', nargs='+', type=int, help='filter by class: --class 0, or --class 0 2 3')
+    # parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
+    # parser.add_argument('--augment', action='store_true', help='augmented inference')
+    # parser.add_argument('--update', action='store_true', help='update all models')
+
+    parser.add_argument('--weights', nargs='+', type=str, default=r'weights/best.pt', help='model.pt path(s)')
+    parser.add_argument('--source', type=str, default=r'../Data/Hampton_Roads_images', help='source')  # file/folder, 0 for webcam
+    parser.add_argument('--output', type=str, default=r'../Data/Hampton_Roads_images_detected', help='output folder')  # output folder
+    parser.add_argument('--img-size', type=int, default=768, help='inference size (pixels)')   # need to fit the actual size. Huan
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--view-img', action='store_true', help='display results')
-    parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
-    parser.add_argument('--classes', nargs='+', type=int, help='filter by class: --class 0, or --class 0 2 3')
+    # parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
+    parser.add_argument('--save-txt', type=str, default=r'--save-txt', help='save results to *.txt')
+    parser.add_argument('--classes', nargs='+',  type=int, help='filter by class: --class 0, or --class 0 2 3')
     parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--update', action='store_true', help='update all models')
+
     opt = parser.parse_args()
     print(opt)
 
