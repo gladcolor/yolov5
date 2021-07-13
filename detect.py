@@ -106,7 +106,7 @@ def detect(save_img=False):
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                         with open(txt_path + '.txt', 'a') as f:
-                            f.write(('%g ' * 5 + '\n') % (cls, *xywh))  # label format
+                            f.write(('%g ' * 6 + '\n') % (cls, conf, *xywh))  # label format
 
                     if save_img or view_img:  # Add bbox to image
                         label = '%s %.2f' % (names[int(cls)], conf)
@@ -163,8 +163,8 @@ if __name__ == '__main__':
     # parser.add_argument('--update', action='store_true', help='update all models')
 
     parser.add_argument('--weights', nargs='+', type=str, default=r'weights/best.pt', help='model.pt path(s)')
-    parser.add_argument('--source', type=str, default=r'../Data/Hampton_Roads_images', help='source')  # file/folder, 0 for webcam
-    parser.add_argument('--output', type=str, default=r'../Data/Hampton_Roads_images_detected', help='output folder')  # output folder
+    parser.add_argument('--source', type=str, default=r'../Data/1_StreetView_images', help='source')  # file/folder, 0 for webcam
+    parser.add_argument('--output', type=str, default=r'../Data/3_Detected_doors', help='output folder')  # output folder
     parser.add_argument('--img-size', type=int, default=768, help='inference size (pixels)')   # need to fit the actual size. Huan
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
